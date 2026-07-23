@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Playground — Anna Fapham</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-nav">
+      <a class="site-nav__mark" href="index.html">anna fapham</a>
+      <nav aria-label="Primary">
+        <ul class="site-nav__links">
+          <li><a href="index.html#design">Design</a></li>
+          <li><a href="illustration.html">Illustration</a></li>
+          <li><a href="motion.html">Motion</a></li>
+          <li><a href="playground.html" aria-current="page">Playground</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <header class="page-hero">
+        <h1>Playground</h1>
+        <p>Doodle on the desk. More toys coming soon.</p>
+      </header>
+
+      <div class="section__inner">
+        <div class="playground-stage" id="playground">
+          <p class="doodle-hint">Drag to doodle</p>
+          <canvas id="doodle" width="1100" height="420" aria-label="Doodle canvas"></canvas>
+        </div>
+        <div class="playground-tools">
+          <button class="btn" type="button" id="clear-doodle">Erase doodle</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p><a href="index.html">← Back to desk</a></p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/playground.js"></script>
+  </body>
+</html>

@@ -1,0 +1,641 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Edu+AU+VIC+WA+NT+Dots:wght@400;700&family=Syne:wght@500;700;800&display=swap");
+
+:root {
+  --mat: #0f6b58;
+  --mat-deep: #0a5043;
+  --mat-line: #e8c84a;
+  --ink: #1a1a1a;
+  --paper: #f7f4ef;
+  --pink: #f4a7c1;
+  --pink-deep: #e889ab;
+  --tape: #f3e27a;
+  --shadow: rgba(20, 20, 20, 0.18);
+  --max: 1100px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "Syne", system-ui, sans-serif;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(247, 244, 239, 0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.site-nav__mark {
+  font-family: "Caveat", cursive;
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.site-nav__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.site-nav__links a {
+  position: relative;
+}
+
+.site-nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: var(--pink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.site-nav__links a:hover::after,
+.site-nav__links a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* —— Hero / cutting mat —— */
+.hero {
+  position: relative;
+  min-height: min(92vh, 920px);
+  padding: 2.5rem 1.25rem 3.5rem;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero__mat {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(180deg, rgba(10, 80, 67, 0.12), transparent 30%),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 27px,
+      rgba(232, 200, 74, 0.35) 27px,
+      rgba(232, 200, 74, 0.35) 28px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 27px,
+      rgba(232, 200, 74, 0.35) 27px,
+      rgba(232, 200, 74, 0.35) 28px
+    ),
+    radial-gradient(circle at 12% 88%, rgba(232, 200, 74, 0.45) 0 42px, transparent 43px),
+    linear-gradient(160deg, #12856d 0%, var(--mat) 45%, var(--mat-deep) 100%);
+  box-shadow: inset 0 -40px 60px rgba(0, 0, 0, 0.18);
+}
+
+.hero__mat::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(232, 200, 74, 0.28);
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+  max-width: var(--max);
+  margin: 0 auto;
+  min-height: inherit;
+  display: grid;
+  align-content: center;
+  gap: 1.75rem;
+}
+
+.scrap-name {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.15rem 0.35rem;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0.5rem;
+  /* Reserve space so scrap swaps never shove the sticky note */
+  min-height: clamp(72px, 14vw, 130px);
+  contain: layout;
+}
+
+.scrap-name__word {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.2rem;
+}
+
+@keyframes scrap-flash {
+  0% {
+    transform: rotate(calc(var(--tilt, 0deg) - 7deg)) translateY(calc(var(--y, 0px) + 4px))
+      scale(0.96) skewX(-3deg);
+  }
+  40% {
+    transform: rotate(calc(var(--tilt, 0deg) + 5deg)) translateY(calc(var(--y, 0px) - 3px))
+      scale(1.03) skewX(2deg);
+  }
+  100% {
+    transform: rotate(var(--tilt, 0deg)) translateY(var(--y, 0px)) scale(1) skewX(0deg);
+  }
+}
+
+.scrap-name img {
+  width: clamp(46px, 9vw, 92px);
+  height: clamp(56px, 11vw, 110px);
+  object-fit: contain;
+  object-position: center bottom;
+  flex: 0 0 auto;
+  transform: rotate(var(--tilt, 0deg)) translateY(var(--y, 0px));
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.25));
+  cursor: default;
+  user-select: none;
+  backface-visibility: hidden;
+}
+
+.scrap-name img.is-flashing {
+  animation: scrap-flash 0.4s cubic-bezier(0.22, 1.15, 0.36, 1);
+}
+
+.scrap-name img:hover,
+.scrap-name img:focus-visible {
+  animation: none;
+  transform: rotate(calc(var(--tilt, 0deg) * -1.4)) translateY(-10px) scale(1.08);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 2;
+}
+
+.scrap-name img:nth-child(odd) {
+  --tilt: -4deg;
+}
+.scrap-name img:nth-child(even) {
+  --tilt: 3.5deg;
+}
+.scrap-name__word:first-child img:nth-child(1) {
+  --tilt: -7deg;
+  --y: 6px;
+}
+.scrap-name__word:first-child img:nth-child(3) {
+  --tilt: 6deg;
+  --y: -4px;
+}
+.scrap-name__word:last-child img:nth-child(1) {
+  --tilt: -5deg;
+}
+.scrap-name__word:last-child img:nth-child(4) {
+  --tilt: 8deg;
+  --y: 5px;
+}
+
+.tag-strip {
+  width: min(560px, 92%);
+  margin: 0.5rem auto 0;
+  padding: 0.85rem 1.15rem;
+  background:
+    linear-gradient(180deg, #f7eb9a, var(--tape));
+  color: #2a2416;
+  font-family: "Edu AU VIC WA NT Dots", cursive;
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: center;
+  /* Own GPU layer so letter swaps don't re-rasterize / blur this text */
+  transform: rotate(-1.5deg) translateZ(0);
+  backface-visibility: hidden;
+  isolation: isolate;
+  -webkit-font-smoothing: antialiased;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.12), 0 12px 24px var(--shadow);
+  position: relative;
+  z-index: 2;
+}
+
+.tag-strip::before,
+.tag-strip::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  width: 54px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.tag-strip::before {
+  left: 18px;
+  transform: rotate(-8deg);
+}
+
+.tag-strip::after {
+  right: 22px;
+  transform: rotate(6deg);
+}
+
+.prop {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.22));
+  transform: translate3d(var(--tx, 0px), var(--ty, 0px), 0) rotate(var(--rot, 0deg));
+  transition: transform 0.4s ease-out;
+  will-change: transform;
+}
+
+.prop img {
+  width: 100%;
+  height: auto;
+}
+
+.prop--badge {
+  top: 6%;
+  left: 2%;
+  width: clamp(72px, 14vw, 130px);
+  --rot: -8deg;
+}
+
+.prop--stickies {
+  top: 5%;
+  right: 3%;
+  width: clamp(80px, 15vw, 140px);
+  --rot: 6deg;
+}
+
+.prop--peach {
+  top: 28%;
+  right: 6%;
+  width: clamp(48px, 9vw, 84px);
+  --rot: 12deg;
+}
+
+.prop--pens {
+  bottom: 10%;
+  left: 3%;
+  width: clamp(90px, 16vw, 150px);
+  --rot: -18deg;
+}
+
+.prop--photos {
+  bottom: 8%;
+  right: 3%;
+  width: clamp(70px, 13vw, 120px);
+  --rot: 4deg;
+}
+
+.prop--delfino {
+  bottom: 22%;
+  left: 8%;
+  width: clamp(44px, 8vw, 72px);
+  --rot: -12deg;
+}
+
+/* —— Object nav —— */
+.object-nav {
+  padding: 2.5rem 1.25rem 1rem;
+  background: #fff;
+}
+
+.object-nav__grid {
+  max-width: var(--max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem 2rem;
+  align-items: end;
+}
+
+.object-link {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  text-align: center;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.object-link:hover,
+.object-link:focus-visible {
+  transform: translateY(-8px) rotate(var(--nudge, -1deg));
+}
+
+.object-link:nth-child(2) {
+  --nudge: 1.5deg;
+}
+.object-link:nth-child(3) {
+  --nudge: 1deg;
+}
+.object-link:nth-child(4) {
+  --nudge: -1.5deg;
+}
+
+.object-link img {
+  width: min(100%, 280px);
+  height: auto;
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.12));
+}
+
+.object-link__fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 9rem;
+  padding: 0.45rem 1.2rem;
+  border-radius: 999px;
+  background: var(--pink);
+  font-family: "Caveat", cursive;
+  font-size: 1.35rem;
+  font-weight: 700;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* —— Sections —— */
+.section {
+  padding: 4rem 1.25rem;
+}
+
+.section__inner {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+.section__title {
+  margin: 0 0 0.35rem;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.section__lede {
+  margin: 0 0 2rem;
+  max-width: 38rem;
+  font-family: "Caveat", cursive;
+  font-size: 1.45rem;
+  color: #444;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.35rem;
+}
+
+.project {
+  display: grid;
+  gap: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.project:hover {
+  transform: translateY(-4px);
+}
+
+.project__media {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #ddd;
+  border-radius: 4px;
+  box-shadow: 0 12px 28px var(--shadow);
+  transform: rotate(var(--spin, 0deg));
+}
+
+.project:nth-child(1) .project__media {
+  --spin: -1.2deg;
+}
+.project:nth-child(2) .project__media {
+  --spin: 1deg;
+}
+.project:nth-child(3) .project__media {
+  --spin: -0.6deg;
+}
+.project:nth-child(4) .project__media {
+  --spin: 1.4deg;
+}
+
+.project__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.project:hover .project__media img {
+  transform: scale(1.05);
+}
+
+.project__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.project__blurb {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-grid a {
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 10px 22px var(--shadow);
+  transform: rotate(calc((var(--i, 0) - 2) * 0.6deg));
+}
+
+.gallery-grid img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.gallery-grid a:hover img {
+  transform: scale(1.06);
+}
+
+.page-hero {
+  padding: 3rem 1.25rem 1rem;
+  text-align: center;
+}
+
+.page-hero h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 7vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.page-hero p {
+  margin: 0.6rem auto 0;
+  max-width: 28rem;
+  font-family: "Caveat", cursive;
+  font-size: 1.4rem;
+}
+
+.playground-stage {
+  min-height: 420px;
+  margin: 1rem auto 3rem;
+  max-width: var(--max);
+  border: 2px dashed rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(244, 167, 193, 0.35), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(232, 200, 74, 0.3), transparent 35%),
+    #fff;
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.doodle-hint {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: "Caveat", cursive;
+  font-size: 1.6rem;
+  color: #777;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.playground-stage.is-drawing .doodle-hint {
+  opacity: 0;
+}
+
+#doodle {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+}
+
+.playground-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.55rem 1.15rem;
+  border-radius: 999px;
+  background: var(--pink);
+  font-family: "Caveat", cursive;
+  font-size: 1.25rem;
+  font-weight: 700;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  background: var(--pink-deep);
+}
+
+.footer {
+  padding: 2.5rem 1.25rem 3rem;
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+}
+
+.footer p {
+  margin: 0.25rem 0;
+  font-family: "Caveat", cursive;
+  font-size: 1.35rem;
+}
+
+.footer a {
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 720px) {
+  .object-nav__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .prop--badge,
+  .prop--stickies,
+  .prop--peach,
+  .prop--pens,
+  .prop--photos,
+  .prop--delfino {
+    opacity: 0.9;
+  }
+
+  .prop--pens,
+  .prop--delfino {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .scrap-name img,
+  .object-link,
+  .project,
+  .project__media img,
+  .gallery-grid img,
+  .prop {
+    transition: none !important;
+    animation: none !important;
+  }
+}
