@@ -85,6 +85,7 @@
     let targetY = 0;
 
     const onMove = (event) => {
+      if (document.body.classList.contains("is-arranging")) return;
       const rect = hero.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;

@@ -125,7 +125,6 @@ a {
       rgba(232, 200, 74, 0.35) 27px,
       rgba(232, 200, 74, 0.35) 28px
     ),
-    radial-gradient(circle at 12% 88%, rgba(232, 200, 74, 0.45) 0 42px, transparent 43px),
     linear-gradient(160deg, #12856d 0%, var(--mat) 45%, var(--mat-deep) 100%);
   box-shadow: inset 0 -40px 60px rgba(0, 0, 0, 0.18);
 }
@@ -140,6 +139,7 @@ a {
 
 .hero__inner {
   position: relative;
+  z-index: 8;
   max-width: var(--max);
   margin: 0 auto;
   min-height: inherit;
@@ -288,46 +288,169 @@ a {
   height: auto;
 }
 
-.prop--badge {
-  top: 6%;
-  left: 2%;
-  width: clamp(72px, 14vw, 130px);
-  --rot: -8deg;
+.desk {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
 }
 
-.prop--stickies {
-  top: 5%;
-  right: 3%;
-  width: clamp(80px, 15vw, 140px);
-  --rot: 6deg;
+.desk-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  pointer-events: none;
+  transform-origin: center center;
+  user-select: none;
+  touch-action: none;
 }
 
-.prop--peach {
-  top: 28%;
-  right: 6%;
-  width: clamp(48px, 9vw, 84px);
-  --rot: 12deg;
+.desk-item img {
+  width: 100%;
+  height: auto;
+  pointer-events: none;
 }
 
-.prop--pens {
-  bottom: 10%;
-  left: 3%;
-  width: clamp(90px, 16vw, 150px);
-  --rot: -18deg;
+.desk-ui {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
 }
 
-.prop--photos {
-  bottom: 8%;
-  right: 3%;
-  width: clamp(70px, 13vw, 120px);
-  --rot: 4deg;
+.desk-ui__actions {
+  display: flex;
+  gap: 0.4rem;
 }
 
-.prop--delfino {
-  bottom: 22%;
-  left: 8%;
-  width: clamp(44px, 8vw, 72px);
-  --rot: -12deg;
+.desk-toggle,
+.desk-reset,
+.desk-tray-toggle {
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.45rem 0.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 6px 16px var(--shadow);
+  cursor: pointer;
+}
+
+.desk-reset,
+.desk-tray-toggle {
+  display: none;
+  background: transparent;
+  color: var(--paper);
+  box-shadow: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.desk-hint {
+  display: none;
+  margin: 0;
+  max-width: 16rem;
+  padding: 0.45rem 0.65rem;
+  background: rgba(247, 244, 239, 0.92);
+  color: var(--ink);
+  font-size: 0.72rem;
+  line-height: 1.35;
+  border-radius: 8px;
+}
+
+.desk-tray {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 28;
+  padding: 0.65rem 1rem 4.25rem;
+  background: linear-gradient(180deg, transparent, rgba(10, 80, 67, 0.72) 28%);
+  pointer-events: none;
+}
+
+.desk-tray__label {
+  margin: 0 0 0.4rem;
+  color: var(--paper);
+  font-size: 0.75rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.desk-tray__items {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  padding: 0.2rem 0 0.4rem;
+  pointer-events: auto;
+}
+
+.desk-tray__item {
+  flex: 0 0 auto;
+  width: 58px;
+  height: 58px;
+  padding: 4px;
+  border: 1px dashed rgba(247, 244, 239, 0.45);
+  border-radius: 8px;
+  background: rgba(247, 244, 239, 0.12);
+  cursor: pointer;
+}
+
+.desk-tray__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+body.is-arranging .hero__inner {
+  pointer-events: none;
+  opacity: 0.82;
+}
+
+body.is-arranging .desk {
+  pointer-events: auto;
+}
+
+body.is-arranging .desk-item {
+  pointer-events: auto;
+  cursor: grab;
+}
+
+body.is-arranging .desk-item.is-dragging {
+  cursor: grabbing;
+  transition: none;
+}
+
+body.is-arranging .desk-item.is-selected {
+  outline: 2px solid #f3e27a;
+  outline-offset: 4px;
+}
+
+body.is-arranging .desk-hint,
+body.is-arranging .desk-reset,
+body.is-arranging .desk-tray-toggle,
+body.is-arranging .desk-tray {
+  display: block;
+}
+
+body.is-arranging .desk-tray {
+  display: block;
+}
+
+body.is-arranging.is-tray-hidden .desk-tray {
+  display: none;
+}
+
+body.is-arranging.is-tray-hidden .desk-ui {
+  bottom: 1rem;
 }
 
 /* —— Object nav —— */
@@ -607,20 +730,6 @@ a {
   .object-nav__grid {
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-  }
-
-  .prop--badge,
-  .prop--stickies,
-  .prop--peach,
-  .prop--pens,
-  .prop--photos,
-  .prop--delfino {
-    opacity: 0.9;
-  }
-
-  .prop--pens,
-  .prop--delfino {
-    display: none;
   }
 }
 

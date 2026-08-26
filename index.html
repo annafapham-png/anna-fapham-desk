@@ -27,24 +27,7 @@
       <section class="hero" aria-label="Introduction">
         <div class="hero__mat" aria-hidden="true"></div>
 
-        <div class="prop prop--badge" data-depth="0.04">
-          <img src="assets/props/badge.png" alt="" />
-        </div>
-        <div class="prop prop--stickies" data-depth="0.06">
-          <img src="assets/props/sticky-notes.png" alt="" />
-        </div>
-        <div class="prop prop--peach" data-depth="0.08">
-          <img src="assets/props/peach-sticker.png" alt="" />
-        </div>
-        <div class="prop prop--pens" data-depth="0.05">
-          <img src="assets/props/pens.png" alt="" />
-        </div>
-        <div class="prop prop--delfino" data-depth="0.07">
-          <img src="assets/props/delfino-sticker.png" alt="" />
-        </div>
-        <div class="prop prop--photos" data-depth="0.05">
-          <img src="assets/props/photostrips.png" alt="" />
-        </div>
+        <div class="desk" aria-hidden="true"></div>
 
         <div class="hero__inner">
           <h1 class="scrap-name" aria-label="Anna Fapham">
@@ -69,6 +52,26 @@
             create, and inspire. I specialize in graphic design, illustration,
             motion graphics, tinkering, and 3d modeling.
           </p>
+        </div>
+
+        <div class="desk-ui">
+          <p class="desk-hint">
+            Drag to move · scroll to resize · Alt-scroll to rotate · Delete to put back
+          </p>
+          <div class="desk-ui__actions">
+            <button class="desk-toggle" type="button" aria-pressed="false">
+              Arrange objects
+            </button>
+            <button class="desk-tray-toggle" type="button" aria-pressed="false">
+              Hide bar
+            </button>
+            <button class="desk-reset" type="button">Reset layout</button>
+          </div>
+        </div>
+
+        <div class="desk-tray" aria-label="Unused objects">
+          <p class="desk-tray__label">Click an object to drop it on the mat</p>
+          <div class="desk-tray__items"></div>
         </div>
       </section>
 
@@ -186,5 +189,6 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/desk.js"></script>
   </body>
 </html>
